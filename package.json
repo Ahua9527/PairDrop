@@ -2,11 +2,17 @@
   "name": "pairdrop",
   "version": "1.11.2",
   "type": "module",
-  "description": "",
-  "main": "server/index.js",
+  "description": "PairDrop Desktop - Local file sharing in your web browser",
+  "main": "electron/main.cjs",
+  "homepage": "https://pairdrop.net",
   "scripts": {
     "start": "node server/index.js",
-    "start:prod": "node server/index.js --rate-limit --auto-restart"
+    "start:prod": "node server/index.js --rate-limit --auto-restart",
+    "electron": "electron .",
+    "electron:dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "dist": "npm run build:mac"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +23,54 @@
     "unique-names-generator": "^4.3.0",
     "ws": "^8.16.0"
   },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.4"
+  },
   "engines": {
     "node": ">=15"
+  },
+  "build": {
+    "appId": "net.pairdrop.desktop",
+    "productName": "PairDrop",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "server/**/*",
+      "public/**/*",
+      "node_modules/**/*",
+      "!node_modules/.cache",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "electron/assets/icon.icns"
+    },
+    "dmg": {
+      "title": "PairDrop ${version}",
+      "backgroundColor": "#ffffff"
+    }
   }
 }
