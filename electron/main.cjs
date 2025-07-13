@@ -35,8 +35,7 @@ function startServer() {
       console.log('Starting PairDrop embedded server on port:', serverPort);
       
       // 使用嵌入式服务器
-      const resourcePath = isDev ? __dirname : process.resourcesPath;
-      await startEmbeddedServer(serverPort, isDev, resourcePath);
+      await startEmbeddedServer(serverPort, isDev);
       
       console.log('PairDrop embedded server started successfully');
       resolve();
